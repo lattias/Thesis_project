@@ -1,0 +1,3 @@
+/Users/lior/openfhe-development/build/lior/build/CMakeFiles/test.dir
+/Users/lior/openfhe-development/build/lior/build/CMakeFiles/edit_cache.dir
+/Users/lior/openfhe-development/build/lior/build/CMakeFiles/rebuild_cache.dir
