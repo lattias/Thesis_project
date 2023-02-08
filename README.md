@@ -10,7 +10,7 @@ brew install cmake
 brew install libomp
 ```
 
-### install location of OpenFHE
+#### install location of OpenFHE
 ```
 mkdir /Users/lior/documents/research-bellovin/code/openfhe-development
 
@@ -35,3 +35,9 @@ cmake -DCMAKE_CROSSCOMPILING=1 -DRUN_HAVE_STD_REGEX=0 -DRUN_HAVE_POSIX_REGEX=0 /
 
 make
 ```
+
+#### Copy CMakeLists.User.txt from the root directory of the git repo to the folder for your project.
+
+Rename CMakeLists.User.txt to CMakeLists.txt.
+
+Update CMakeLists.txt to specify the name of the executable and the source code files. For example, include the following line
