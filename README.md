@@ -51,7 +51,7 @@ Rename CMakeLists.User.txt to CMakeLists.txt.
 
 Update CMakeLists.txt to specify the name of the executable and the source code files. For example, include the following line
 
-Now create the build folder, and execute make from from the build colder
+Now create the build folder, and execute make from from the build folder
 ```
 cd /Users/lior/documents/research-bellovin/code2/liors_project/
 mkdir build
