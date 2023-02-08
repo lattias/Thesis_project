@@ -61,4 +61,8 @@ make
 ./test
 ```
 
+each time you modify the project start file, only run 
+```
+make
+```
 
