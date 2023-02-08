@@ -43,7 +43,8 @@ Rename CMakeLists.User.txt to CMakeLists.txt.
 Update CMakeLists.txt to specify the name of the executable and the source code files. For example, include the following line
 
 ## 3. Build your project
-
+```
 mkdir build
 cd build
 cmake ..
+```
