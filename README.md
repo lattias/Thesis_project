@@ -36,15 +36,29 @@ cmake -DCMAKE_CROSSCOMPILING=1 -DRUN_HAVE_STD_REGEX=0 -DRUN_HAVE_POSIX_REGEX=0 /
 make
 ```
 
+## 3. Build my project
+
 #### Copy CMakeLists.User.txt from the root directory of the git repo to the folder for your project.
+
+I want my code to go into 
+```
+/Users/lior/documents/research-bellovin/code2/liors_project/
+```
 
 Rename CMakeLists.User.txt to CMakeLists.txt.
 
+/Users/lior/documents/research-bellovin/code2/liors_project/ should contain CMakeLists.txt
+
 Update CMakeLists.txt to specify the name of the executable and the source code files. For example, include the following line
 
-## 3. Build my project
+Now create the build folder, and execute make from from the build colder
 ```
+cd /Users/lior/documents/research-bellovin/code2/liors_project/
 mkdir build
 cd build
 cmake ..
+make 
+./test
 ```
+
+
