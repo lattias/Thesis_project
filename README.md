@@ -1,7 +1,24 @@
 # Thesis_project
 Lior Attias thesis code
 
-Intallation steps
+Installation steps for running the executable:
+## 1. install OpenFHE
+
+## 2. Clone this repository
+
+```
+git close <this repository>
+```
+
+## 3. Execute the program
+
+```
+cd Thesis_project/central_thesis_code/build/
+
+./one2
+```
+
+Intallation steps for building the project:
 
 ## 1. install OpenFHE
 ```
