@@ -4,13 +4,17 @@ Lior Attias thesis code
 Installation steps for running the executable:
 ## 1. install OpenFHE
 
+https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html
+
 ## 2. Clone this repository
 
 ```
 git close <this repository>
 ```
 
-## 3. Execute the program
+## 3. Put your data into the "data" folder
+
+## 4. Execute the program
 
 ```
 cd Thesis_project/central_thesis_code/build/
