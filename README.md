@@ -1,20 +1,20 @@
 # Thesis_project
 Lior Attias thesis code
 
-Installation steps for running the executable:
-## 1. install OpenFHE
+## Installation steps for running the executable:
+### 1. install OpenFHE
 
 https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html
 
-## 2. Clone this repository
+### 2. Clone this repository
 
 ```
 git close <this repository>
 ```
 
-## 3. Put your data into the "data" folder
+### 3. Put your data into the "data" folder
 
-## 4. Execute the program
+### 4. Execute the program
 
 ```
 cd Thesis_project/central_thesis_code/build/
@@ -22,9 +22,9 @@ cd Thesis_project/central_thesis_code/build/
 ./one2
 ```
 
-Intallation steps for building the project:
+## Intallation steps for building the project:
 
-## 1. install OpenFHE
+### 1. install OpenFHE
 ```
 brew install cmake
 
@@ -43,7 +43,7 @@ cd /Users/lior/documents/research-bellovin/code/openfhe-development
 git clone https://github.com/openfheorg/openfhe-development.git
 ```
 
-## 2. create the directory where you want your project code to go into
+### 2. create the directory where you want your project code to go into
 ```
 mkdir /Users/lior/documents/research-bellovin/code2
 ```
@@ -57,7 +57,7 @@ cmake -DCMAKE_CROSSCOMPILING=1 -DRUN_HAVE_STD_REGEX=0 -DRUN_HAVE_POSIX_REGEX=0 /
 make
 ```
 
-## 3. Build my project
+### 3. Build my project
 
 #### Copy CMakeLists.User.txt from the root directory of the git repo to the folder for your project.
 
