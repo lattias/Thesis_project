@@ -6,6 +6,50 @@ Lior Attias thesis code
 
 https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html
 
+The location to where you install OpenFHE, and the location to where you install this project, should share one parent folder. In other words, they should be "sibling nodes" in the file tree.
+
+you need to copy the 'lib' folder of OpenFHE into the parent folder of this repository
+
+For example, after installing OpenFHE and this repository your file tree should look as follows:
+
+```
+parent_directory
+- Data
+- install_location_of_this_repository (this repo will automatically install the files nested in this folder for you)
+- - lib (copy this lib folder from the OpenFHE project into here)
+- - thesis_central_code
+- - - build
+- - - one_hot_2.cpp
+- - - serialized_data
+- - - - pattern
+- - - - - zero
+- - - - - one
+- - - - - two
+- - - - - three
+- - - - text
+- - - - - zero
+- - - - - one
+- - - - - two
+- - - - - three
+- install_location_of_openFHE (openFHE will automatically install the files nested in this folder for you)
+- - OpenFHEDevelopment
+- - - benchmark
+- - - build
+- - - cicd
+- - - configure
+- - - demodata
+- - - docker
+- - - docs
+- - - scripts
+- - - src
+- - - test
+- - - third-party
+
+```
+
+
+https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html
+
 ### 2. Clone this repository
 
 ```
