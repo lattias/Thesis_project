@@ -9,7 +9,7 @@ https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installat
 ### 2. Clone this repository
 
 ```
-git close <this repository>
+git clone <this repository>
 ```
 
 ### 3. Put your data into the "data" folder
