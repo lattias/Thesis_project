@@ -17,7 +17,7 @@ git clone <this repository>
 ### 4. Execute the program
 
 ```
-cd Thesis_project/central_thesis_code/build/
+cd Thesis_project/thesis_central_code/build/
 
 ./one2
 ```
