@@ -205,8 +205,8 @@ int main(){
     */
 
 //homolog is totally wrong and can be deleted, just need pattern match enc only
-   vector<vecCT> homolog_result;
-   homolog(ct_genome, ct_pattern, homolog_result, homo, cc);
+   //vector<vecCT> homolog_result;
+   //homolog(ct_genome, ct_pattern, homolog_result, homo, cc);
 
     printf("oy1\n");
 
