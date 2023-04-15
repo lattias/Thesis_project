@@ -73,7 +73,7 @@ void true_false_found(vector<vecCT> enc_result, vector<vecCT> enc_pattern, CT &a
 
 void raw_match(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, int offset);
 
-void precent_match_homolog(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result, vecChar pattern);
+void precent_match_homolog(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result, vecChar pattern, vector<vecCT> ct_pattern);
 
 void percent_match_decrypt(vecCT percent_match_result, double &percent_match_value, LWEPrivateKey sk, BinFHEContext cc);
 
@@ -124,6 +124,7 @@ int main(){
 
     pattern = {'a','g','t','c'};
     vecChar homo = {'a','g','X','c','g'};
+    pattern = homo;
 
     //pattern = {'a','a','t','t'};
     //pattern = {'t','t','t','t','t','t','t','t','t','t','t','t'};
@@ -214,17 +215,20 @@ int main(){
 
     std::cout << "\nhey liorA  = " << pattern_match_enc_result_homo.size() << std::endl;
     std::cout << "\nhey liorB  = " << pattern_match_enc_result_homo[0].size() << std::endl;
-    //i thin pattern_match_enc_homolog is working fine
+    //i think pattern_match_enc_homolog is working fine
 
     printf("oy2\n");
 
-    //vecCT percent_match_result_for_homolog;
-    //precent_match_homolog(pattern_match_enc_result_homo, cc, percent_match_result_for_homolog, homo);
+    vecCT percent_match_result_for_homolog;
+    precent_match_homolog(pattern_match_enc_result_homo, cc, percent_match_result_for_homolog, homo, ct_pattern);
 
     printf("oy3\n");
 
     vector<vecChar> get_the_homolog_result;
     get_the_homolog(percent_match_result_for_homolog, get_the_homolog_result, homo, cc, sk, ct_genome, ct_pattern);
+
+    //vector<vecChar> get_the_homolog_result;
+    //get_the_homolog(percent_match_result_for_homolog, get_the_homolog_result, homo, cc, sk, ct_genome, ct_pattern);
 
     printf("oy4\n");
 
@@ -251,14 +255,18 @@ int main(){
 
 void get_the_homolog(vecCT percent_match_result_for_homolog, vector<vecChar> &get_the_homolog_result, vecChar pattern, BinFHEContext cc, LWEPrivateKey sk, vector<vecCT> ct_genome, vector<vecCT> ct_pattern){
 
+    printf("get the homolog\n");
+    printf("%lu\n", percent_match_result_for_homolog.size() );
 
     for (int i = 0; i < percent_match_result_for_homolog.size(); i++){
         LWEPlaintext res;
         cc.Decrypt(sk, percent_match_result_for_homolog[i], &res);
+        printf("hello1\n");
 
         if (res){ //i contains the start index of the match
             vecChar homolog;
             for (int j = 0; j < pattern.size(); j++){
+                printf("hello\n");
 
                 LWEPlaintext res0;
                 LWEPlaintext res1;
@@ -370,17 +378,17 @@ void precent_match(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &
     return;
 }
 
-void precent_match_homolog(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result, vecChar pattern){
+void precent_match_homolog(vector<vecCT> pattern_match_result, BinFHEContext cc, vecCT &result, vecChar pattern, vector<vecCT> ct_pattern){
     
     printf("entering percent match HOMOLOG\n");
-    printf("raw_match_enc_result[0].size() %lu\n", raw_match_enc_result[0].size() );
+    printf("pattern_match_result[0].size() %lu\n", pattern_match_result[0].size() );
 
-    for (int i = 0; i < raw_match_enc_result[0].size(); i++){
+    for (int i = 0; i < pattern_match_result[0].size(); i++){
 
-        CT temp = cc.EvalBinGate(AND, raw_match_enc_result[0][i], raw_match_enc_result[1][i]);
-        temp = cc.EvalBinGate(AND, temp, raw_match_enc_result[1][i]);
-        temp = cc.EvalBinGate(AND, temp, raw_match_enc_result[2][i]);
-        temp = cc.EvalBinGate(AND, temp, raw_match_enc_result[3][i]);
+        CT temp = cc.EvalBinGate(AND, pattern_match_result[0][i], pattern_match_result[1][i]);
+        temp = cc.EvalBinGate(AND, temp, pattern_match_result[1][i]);
+        temp = cc.EvalBinGate(AND, temp, pattern_match_result[2][i]);
+        temp = cc.EvalBinGate(AND, temp, pattern_match_result[3][i]);
 
         result.push_back(temp);
     }
