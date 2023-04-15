@@ -72,11 +72,22 @@ void pattern_match_enc(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector
 void true_false_found(vector<vecCT> enc_result, vector<vecCT> enc_pattern, CT &any_found_result, BinFHEContext cc);
 
 void raw_match(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, int offset);
-void precent_match(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result);
+
+void precent_match_homolog(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result, vecChar pattern, vector<vecCT> ct_pattern);
 
 void percent_match_decrypt(vecCT percent_match_result, double &percent_match_value, LWEPrivateKey sk, BinFHEContext cc);
 
 void homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vecChar pattern, BinFHEContext cc);
+
+void homolog_decrypt(vector<vecCT> homolog_result, vecChar pattern, LWEPrivateKey sk, BinFHEContext cc, vecChar &homolog_decrypt_result, vecCT percent_match_result);
+
+void get_the_homolog(vecCT percent_match_result_for_homolog, vector<vecChar> &get_the_homolog_result, vecChar pattern, BinFHEContext cc, LWEPrivateKey sk, vector<vecCT> ct_genome, vector<vecCT> ct_pattern);
+
+void raw_match_homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, int offset);
+
+void precent_match(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result);
+
+void pattern_match_enc_homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, vecChar pattern);
 
 //const int d = 256;
 
@@ -111,7 +122,9 @@ int main(){
 
     one_hot_encode(genome, one_hot_genome);
 
-    pattern = {'a','g','t','c','g'};
+    pattern = {'a','g','t','c'};
+    vecChar homo = {'a','g','X','c','g'};
+    pattern = homo;
 
     //pattern = {'a','a','t','t'};
     //pattern = {'t','t','t','t','t','t','t','t','t','t','t','t'};
@@ -162,6 +175,8 @@ int main(){
     vector<vecCT> enc_result;
     printf("start pattern match\n");
 
+    /*
+
     pattern_match_enc(ct_genome, ct_pattern, enc_result, one_hot_pattern, cc);
 
     CT any_found_result;
@@ -177,24 +192,154 @@ int main(){
     vector<vecCT> raw_match_enc_result;
     int offset = 0;
     raw_match(ct_genome, ct_pattern, raw_match_enc_result, one_hot_pattern, cc, offset);
+    std::cout << "\nhey lior0   " << std::endl;
 
     vecCT percent_match_result;
     precent_match(raw_match_enc_result, cc, percent_match_result);
+    std::cout << "\nhey lior1   " << std::endl;
 
     double percent_match_value;
     percent_match_decrypt(percent_match_result, percent_match_value, sk, cc);
 
     std::cout << "\nhey lior2  = " << percent_match_value << std::endl;
+    */
+
+//homolog is totally wrong and can be deleted, just need pattern match enc only
+   //vector<vecCT> homolog_result;
+   //homolog(ct_genome, ct_pattern, homolog_result, homo, cc);
+
+    printf("oy1\n");
+
+    vector<vecCT> pattern_match_enc_result_homo;
+    pattern_match_enc_homolog(ct_genome, ct_pattern, pattern_match_enc_result_homo, one_hot_pattern, cc, homo);
+
+    std::cout << "\nhey liorA  = " << pattern_match_enc_result_homo.size() << std::endl;
+    std::cout << "\nhey liorB  = " << pattern_match_enc_result_homo[0].size() << std::endl;
+    //i think pattern_match_enc_homolog is working fine
+
+    printf("oy2\n");
+
+    vecCT percent_match_result_for_homolog;
+    precent_match_homolog(pattern_match_enc_result_homo, cc, percent_match_result_for_homolog, homo, ct_pattern);
+
+    printf("oy3\n");
+
+    vector<vecChar> get_the_homolog_result;
+    get_the_homolog(percent_match_result_for_homolog, get_the_homolog_result, homo, cc, sk, ct_genome, ct_pattern);
+
+    //vector<vecChar> get_the_homolog_result;
+    //get_the_homolog(percent_match_result_for_homolog, get_the_homolog_result, homo, cc, sk, ct_genome, ct_pattern);
+
+    printf("oy4\n");
+
+    for(vecChar item : get_the_homolog_result){
+        std::cout << "\nhey lior3  = " << item << std::endl;
+    }
 
 
-    printf("hi");
+
+    // vecCT percent_match_result_for_homolog;
+    // precent_match(homolog_result, cc, percent_match_result_for_homolog);
+
+    // vecChar homolog_decrypt_result;
+    // homolog_decrypt(homolog_result, pattern, sk, cc, homolog_decrypt_result, percent_match_result_for_homolog);
+
+
+
+
+    printf("hiiii");
     
     return 0;
 
 }
 
-void homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vecChar pattern, BinFHEContext cc){
+void get_the_homolog(vecCT percent_match_result_for_homolog, vector<vecChar> &get_the_homolog_result, vecChar pattern, BinFHEContext cc, LWEPrivateKey sk, vector<vecCT> ct_genome, vector<vecCT> ct_pattern){
+
+    printf("get the homolog\n");
+    printf("%lu\n", percent_match_result_for_homolog.size() );
+
+    for (int i = 0; i < percent_match_result_for_homolog.size(); i++){
+        LWEPlaintext res;
+        cc.Decrypt(sk, percent_match_result_for_homolog[i], &res);
+        printf("hello1\n");
+
+        if (res){ //i contains the start index of the match
+            vecChar homolog;
+            for (int j = 0; j < pattern.size(); j++){
+                printf("hello\n");
+
+                LWEPlaintext res0;
+                LWEPlaintext res1;
+                LWEPlaintext res2;
+                LWEPlaintext res3;
+
+                cc.Decrypt(sk, ct_genome[0][i + j], &res0);
+                cc.Decrypt(sk, ct_genome[1][i + j], &res1);
+                cc.Decrypt(sk, ct_genome[2][i + j], &res2);
+                cc.Decrypt(sk, ct_genome[3][i + j], &res3);  
+
+                if(res0){
+                    homolog.push_back('a');
+                }
+                else if(res1){
+                    homolog.push_back('c');
+                }
+                else if(res2){
+                    homolog.push_back('g');
+                }
+                else{ //res3
+                    homolog.push_back('t');
+                }
+            }
+            get_the_homolog_result.push_back(homolog);
+        }
+    }
     return;
+}
+
+void homolog_decrypt(vector<vecCT> homolog_result, vecChar pattern, LWEPrivateKey sk, BinFHEContext cc, vecChar &homolog_decrypt_result, vecCT percent_match_result){
+
+
+    return;
+}
+
+void homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vecChar pattern, BinFHEContext cc){
+    //just skip over wildcard characters in the and + xnor aggregation
+    //assume the first character is not a wildcard
+
+    for (int row = 0; row < ct_genome.size(); row++){ //4 rows
+
+        vecCT aggregate_for_row;
+
+        for (int i_genome = 0; i_genome < ct_genome[row].size() - ct_pattern[row].size() + 1; i_genome++){ //len of each row of genome
+            
+            printf("row, i_genome, i_pattern: , %d, %d, %d\n ", row, i_genome, 0); 
+            
+            //it doesn't really make sense to have a wildcard at the start of the pattern match sequence
+
+            CT aggregate = cc.EvalBinGate(XNOR, 
+                                          ct_pattern[row][0], 
+                                          ct_genome[row][i_genome + 0]);
+            
+            for (int i_pattern = 1; i_pattern < ct_pattern[row].size(); i_pattern++){ //len of the pattern
+                if (tolower(pattern[i_pattern]) == 'x'){
+                    i_genome++;
+                } else {
+                    printf("row, i_genome, i_pattern: , %d, %d, %d\n ", row, i_genome, i_pattern);
+                    //match up the pattern
+                    aggregate = cc.EvalBinGate(AND, 
+                                               aggregate,
+                                               cc.EvalBinGate(XNOR, 
+                                                              ct_pattern[row][i_pattern], 
+                                                              ct_genome[row][i_genome + i_pattern]));
+                }
+            }
+            aggregate_for_row.push_back(aggregate);
+
+        }
+        result.push_back(aggregate_for_row);
+
+    }
 }
 
 
@@ -217,6 +362,9 @@ void percent_match_decrypt(vecCT percent_match_result, double &percent_match_val
 
 void precent_match(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &result){
     
+    printf("entering percent match\n");
+    printf("raw_match_enc_result[0].size() %lu\n", raw_match_enc_result[0].size() );
+
     for (int i = 0; i < raw_match_enc_result[0].size(); i++){
 
         CT temp = cc.EvalBinGate(AND, raw_match_enc_result[0][i], raw_match_enc_result[1][i]);
@@ -230,20 +378,79 @@ void precent_match(vector<vecCT> raw_match_enc_result, BinFHEContext cc, vecCT &
     return;
 }
 
+void precent_match_homolog(vector<vecCT> pattern_match_result, BinFHEContext cc, vecCT &result, vecChar pattern, vector<vecCT> ct_pattern){
+    
+    printf("entering percent match HOMOLOG\n");
+    printf("pattern_match_result[0].size() %lu\n", pattern_match_result[0].size() );
+
+    for (int i = 0; i < pattern_match_result[0].size(); i++){
+
+        CT temp = cc.EvalBinGate(AND, pattern_match_result[0][i], pattern_match_result[1][i]);
+        temp = cc.EvalBinGate(AND, temp, pattern_match_result[1][i]);
+        temp = cc.EvalBinGate(AND, temp, pattern_match_result[2][i]);
+        temp = cc.EvalBinGate(AND, temp, pattern_match_result[3][i]);
+
+        result.push_back(temp);
+    }
+
+    return;
+}
+
 void raw_match(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, int offset){
+    printf("entering raw match\n");
+
 
     for (int row = 0; row < ct_genome.size(); row++){ //4 rows
 
         vecCT aggregate_for_row;
 
+        int j = 0;
         for (int i = offset; i < ct_genome[row].size(); i++){ //len of each row of genome
-            
+
+            if (j >= ct_pattern[0].size()){
+                continue;
+            }
+
             printf("row, i_genome: , %d, %d\n ", row, i);
             CT temp = cc.EvalBinGate(XNOR, 
-                                          ct_pattern[row][i], 
+                                          ct_pattern[row][j], 
                                           ct_genome[row][i]);
 
             aggregate_for_row.push_back(temp);
+            j++;
+
+        }
+        result.push_back(aggregate_for_row);
+    }
+
+    return;
+}
+
+void raw_match_homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, int offset){
+    printf("entering raw match\n");
+
+
+    for (int row = 0; row < ct_genome.size(); row++){ //4 rows
+
+        vecCT aggregate_for_row;
+
+        int j = 0;
+        for (int i = offset; i < ct_genome[row].size(); i++){ //len of each row of genome
+
+            if (j >= ct_pattern[0].size()){
+                continue;
+            }
+
+            if (tolower(pt_pattern[row][i]) == 'x'){
+                continue;
+            }
+            printf("row, i_genome: , %d, %d\n ", row, i);
+            CT temp = cc.EvalBinGate(XNOR, 
+                                          ct_pattern[row][j], 
+                                          ct_genome[row][i]);
+
+            aggregate_for_row.push_back(temp);
+            j++;
 
         }
         result.push_back(aggregate_for_row);
@@ -276,7 +483,6 @@ void pattern_match_enc(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector
     printf("hereee\n");
     printf("%lu", ct_genome.size());
 
-
     for (int row = 0; row < ct_genome.size(); row++){ //4 rows
 
         vecCT aggregate_for_row;
@@ -296,13 +502,72 @@ void pattern_match_enc(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector
                                            cc.EvalBinGate(XNOR, 
                                                           ct_pattern[row][i_pattern], 
                                                           ct_genome[row][i_genome + i_pattern]));
-
             }
             aggregate_for_row.push_back(aggregate);
 
         }
         result.push_back(aggregate_for_row);
 
+    }
+
+    return;
+}
+
+void pattern_match_enc_homolog(vector<vecCT> ct_genome, vector<vecCT> ct_pattern, vector<vecCT> &result, vector<vecInt> pt_pattern, BinFHEContext cc, vecChar pattern){
+    printf("\nenterieng pattern_match_enc_homolog\n");
+    printf("%lu \n", ct_genome[0].size());
+
+    int num_wildcards = 0;
+    for(int x = 0; x < pattern.size(); x++){
+        if (tolower(pattern[x]) == 'x'){
+            num_wildcards++;
+        }
+    }
+    //num_wildcards = 0;
+    printf("num_wildcards is %d\n", num_wildcards);
+
+    for (int row = 0; row < ct_genome.size(); row++){ //4 rows
+
+        vecCT aggregate_for_row;
+
+        for (int i_genome = 0; i_genome < ct_genome[row].size() - ct_pattern[row].size() + 1 - num_wildcards; i_genome++){ //len of each row of genome
+            
+            printf("row, i_genome, i_pattern: , %d, %d, %d\n ", row, i_genome, 0);
+            CT aggregate = cc.EvalBinGate(XNOR, 
+                                          ct_pattern[row][0], 
+                                          ct_genome[row][i_genome + 0]);
+            
+            int found_wildcard = 0;
+            for (int i_pattern = 1; i_pattern < ct_pattern[row].size(); i_pattern++){ //len of the pattern
+                if (tolower(pattern[i_pattern]) == 'x'){
+                    printf("skip\n");
+
+                    /*auto ct_and = cc.EvalBinGate(AND, 
+                                                 ct_pattern[row][i_pattern], 
+                                                 ct_genome[row][i_genome + i_pattern]);
+
+                    auto ct_nand = cc.EvalNOT(ct_and);
+                    auto ct_or = cc.EvalBinGate(OR, ct_and, ct_nand); //1
+ 
+                    aggregate = cc.EvalBinGate(AND, aggregate, ct_or);
+                    */ 
+                    found_wildcard += 1;
+                }
+
+                printf("row, i_genome, i_pattern: , %d, %d, %d\n ", row, i_genome, i_pattern);
+                //match up the pattern
+     
+                aggregate = cc.EvalBinGate(AND, 
+                                           aggregate,
+                                           cc.EvalBinGate(XNOR, 
+                                                          ct_pattern[row][i_pattern], 
+                                                          ct_genome[row][i_genome + i_pattern + found_wildcard]));
+            }
+            printf("HI\n");
+            aggregate_for_row.push_back(aggregate);
+
+        }
+        result.push_back(aggregate_for_row);
     }
 
     return;
@@ -889,7 +1154,7 @@ void one_hot_encode(vecChar input, vector<vecInt>& output){
 
     for (char character : input){
     printf("%c ",character );
-      switch(character){
+      switch(tolower(character)){
         case 'a':
           a.push_back(1);
           c.push_back(0);
@@ -916,6 +1181,13 @@ void one_hot_encode(vecChar input, vector<vecInt>& output){
           g.push_back(0);
           t.push_back(1);
           break;
+
+        // case 'x': //wildcard
+        //   a.push_back(1);
+        //   c.push_back(1);
+        //   g.push_back(1);
+        //   t.push_back(1);
+        //   break;
         
         default:
           break;
