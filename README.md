@@ -77,9 +77,9 @@ brew install libomp
 
 #### install location of OpenFHE
 ```
-mkdir /Users/lior/documents/research-bellovin/code/openfhe-development
+mkdir /Users/username/documents/research/code/openfhe-development
 
-cd /Users/lior/documents/research-bellovin/code/openfhe-development
+cd /Users/username/documents/research/code/openfhe-development
 ```
 
 #### clone the OpenFHE repository
