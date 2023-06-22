@@ -96,7 +96,7 @@ mkdir /Users/username/documents/research/flexFHESource
 ```
 cd /Users/username/documents/research/flexFHESource
 
-cmake -DCMAKE_CROSSCOMPILING=1 -DRUN_HAVE_STD_REGEX=0 -DRUN_HAVE_POSIX_REGEX=0 /Users/lior/documents/research-bellovin/code/openfhe-development
+cmake -DCMAKE_CROSSCOMPILING=1 -DRUN_HAVE_STD_REGEX=0 -DRUN_HAVE_POSIX_REGEX=0 /Users/username/documents/research/code/openfhe-development
 
 make
 ```
