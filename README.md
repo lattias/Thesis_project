@@ -19,7 +19,7 @@ parent_directory
 - - lib (copy this lib folder from the OpenFHE project into here)
 - - thesis_central_code
 - - - build
-- - - flex_fhe.cpp
+- - - flexFHE.cpp
 - - - serialized_data
 - - - - pattern
 - - - - - zero
@@ -63,7 +63,7 @@ git clone <this repository>
 ```
 cd Thesis_project/thesis_central_code/build/
 
-./one2
+./flexFHE
 ```
 
 ## Intallation steps for building the project:
@@ -89,12 +89,12 @@ git clone https://github.com/openfheorg/openfhe-development.git
 
 ### 2. create the directory where you want your project code to go into
 ```
-mkdir /Users/lior/documents/research-bellovin/code2
+mkdir /Users/username/documents/research/flexFHESource
 ```
 
 #### call cmake from OpenFHE inside your project directory
 ```
-cd /Users/lior/documents/research-bellovin/code2
+cd /Users/username/documents/research/flexFHESource
 
 cmake -DCMAKE_CROSSCOMPILING=1 -DRUN_HAVE_STD_REGEX=0 -DRUN_HAVE_POSIX_REGEX=0 /Users/lior/documents/research-bellovin/code/openfhe-development
 
@@ -107,18 +107,18 @@ make
 
 I want my code to go into 
 ```
-/Users/lior/documents/research-bellovin/code2/liors_project/
+/Users/username/documents/research/flexFHESource
 ```
 
 Rename CMakeLists.User.txt to CMakeLists.txt.
 
-/Users/lior/documents/research-bellovin/code2/liors_project/ should contain CMakeLists.txt
+/Users/username/documents/research/flexFHESource/ should contain CMakeLists.txt
 
 Update CMakeLists.txt to specify the name of the executable and the source code files. For example, include the following line
 
 Now create the build folder, and execute make from from the build folder
 ```
-cd /Users/lior/documents/research-bellovin/code2/liors_project/
+cd /Users/username/documents/research/flexFHESource/
 mkdir build
 cd build
 cmake ..
