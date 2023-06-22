@@ -19,7 +19,7 @@ parent_directory
 - - lib (copy this lib folder from the OpenFHE project into here)
 - - thesis_central_code
 - - - build
-- - - one_hot_2.cpp
+- - - flex_fhe.cpp
 - - - serialized_data
 - - - - pattern
 - - - - - zero
