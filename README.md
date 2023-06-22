@@ -15,7 +15,7 @@ For example, after installing OpenFHE and this repository your file tree should 
 ```
 parent_directory
 - Data
-- install_location_of_this_repository (this repo will automatically install the files nested in this folder for you)
+- install_location_of_this_repository (this repo will install the files nested in this folder for you)
 - - lib (copy this lib folder from the OpenFHE project into here)
 - - thesis_central_code
 - - - build
@@ -31,7 +31,7 @@ parent_directory
 - - - - - one
 - - - - - two
 - - - - - three
-- install_location_of_openFHE (openFHE will automatically install the files nested in this folder for you)
+- install_location_of_openFHE (openFHE will install the files nested in this folder for you)
 - - OpenFHEDevelopment
 - - - benchmark
 - - - build
