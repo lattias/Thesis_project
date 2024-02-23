@@ -1,7 +1,7 @@
 # Thesis_project
 Lior Attias thesis code
 
-## Installation steps for running the executable:
+## Installation steps for running the re-creating timeing and performance metrics:
 ### 1. install OpenFHE
 
 https://openfhe-development.readthedocs.io/en/latest/sphinx_rsts/intro/installation/installation.html
@@ -130,4 +130,52 @@ each time you modify the project start file, only run
 ```
 make
 ```
+
+# Steps for executing the software as Alice and Bob
+•	Install OpenFHE
+•	Clone the Thesis_project repository
+•	Create a new build folder and build the project
+  ```
+  rm -r build
+  mkdir build
+  cd build
+  cmake ..
+  make
+  ```
+•	In Alice’s secure environment, encrypt the genome
+```
+./trust
+```
+•	In Bob’s untrusted environment, run calculations on the encrypted genome
+```
+	./untrust
+```
+•	In Alice’s trusted environment, verify the calcuations are correct by running:
+```
+./trust_decr
+```
+•	In Bob’s untrusted environment, create a public/private key pair for Bob.
+```
+	./bob_key
+```
+•	In Alice’s secure environment, run the re-encryption protocol to re-encrypt the data
+```
+	./trust_reenc
+```
+•	In Bob’s untrusted environment, decrypt the results with Bob’s private key
+```
+	./untrust_decr
+```
+
+Where To Place Genome, Pattern, and Homolog Files:
+
+•	In trust.cpp, define the absolute paths to your local files.
+  set the variable ```infilename ``` to the absolute path of your genome.
+  set the variable ```pattern ```to your pattern
+    The pattern  is a sequence of nucleotides such as aattt
+set the variable ```homo (short for homolog)``` to a wildcard pattern 
+  A wildcard pattern contains the character X such as aaXXXttt
+set the ```variable percent_file_name``` to the absolute path of another genome (or any sequence of nucleotides) to perform a perform a percent match operation on.
+  The results of a percent match operation will tell you the percent of matching nucleotides between the original genome sequence and another genome sequence. The longer the continuous matching sequence and the higher the percent match between the two sequences, the greater likelihood of familial relationship between the two genomes.
+![image](https://github.com/lattias/Thesis_project/assets/16942812/c03e9a54-aed9-47db-a304-29853cf92603)
 
