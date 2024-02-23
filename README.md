@@ -148,7 +148,7 @@ make
 ```
 •	In Bob’s untrusted environment, run calculations on the encrypted genome
 ```
-	./untrust
+./untrust
 ```
 •	In Alice’s trusted environment, verify the calcuations are correct by running:
 ```
@@ -156,15 +156,15 @@ make
 ```
 •	In Bob’s untrusted environment, create a public/private key pair for Bob.
 ```
-	./bob_key
+./bob_key
 ```
 •	In Alice’s secure environment, run the re-encryption protocol to re-encrypt the data
 ```
-	./trust_reenc
+./trust_reenc
 ```
 •	In Bob’s untrusted environment, decrypt the results with Bob’s private key
 ```
-	./untrust_decr
+./untrust_decr
 ```
 
 Where To Place Genome, Pattern, and Homolog Files:
@@ -177,5 +177,7 @@ set the variable ```homo (short for homolog)``` to a wildcard pattern
   A wildcard pattern contains the character X such as aaXXXttt
 set the ```variable percent_file_name``` to the absolute path of another genome (or any sequence of nucleotides) to perform a perform a percent match operation on.
   The results of a percent match operation will tell you the percent of matching nucleotides between the original genome sequence and another genome sequence. The longer the continuous matching sequence and the higher the percent match between the two sequences, the greater likelihood of familial relationship between the two genomes.
+
+  
 ![image](https://github.com/lattias/Thesis_project/assets/16942812/c03e9a54-aed9-47db-a304-29853cf92603)
 
