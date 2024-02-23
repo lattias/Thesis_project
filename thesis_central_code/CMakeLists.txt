@@ -50,6 +50,7 @@ add_executable(untrust untrust.cpp)
 add_executable(trust trust.cpp)
 add_executable(trust_decr trust_decrypt.cpp)
 add_executable(trust_reenc trusted_re_encrypt.cpp)
+add_executable(bob_key untrusted_pub_key_gen.cpp)
 ###add_executable(one16 one_hot_16.cpp)
 ###add_executable(trust trusted_correct_most_recent.cpp)
 
