@@ -110,8 +110,6 @@ I want my code to go into
 /Users/username/documents/research/flexFHESource
 ```
 
-Rename CMakeLists.User.txt to CMakeLists.txt.
-
 /Users/username/documents/research/flexFHESource/ should contain CMakeLists.txt
 
 Update CMakeLists.txt to specify the name of the executable and the source code files. For example, include the following line
@@ -136,9 +134,8 @@ make
 •	Clone the Thesis_project repository
 •	Create a new build folder and build the project
   ```
-  rm -r build
-  mkdir build
   cd build
+  rm -f CMakeCache.txt
   cmake ..
   make
   ```
