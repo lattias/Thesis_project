@@ -123,7 +123,7 @@ mkdir build
 cd build
 cmake ..
 make 
-./openfhe
+./flexFHE
 ```
 
 each time you modify the project start file, only run 
