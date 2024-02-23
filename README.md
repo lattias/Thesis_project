@@ -123,7 +123,7 @@ mkdir build
 cd build
 cmake ..
 make 
-./test
+./openfhe
 ```
 
 each time you modify the project start file, only run 
