@@ -201,11 +201,11 @@ TIC(t);
 
    for (int i = 0; i < (int) row_0_pm.size(); i++){
       	LWEPlaintext pt;
-	cc.Decrypt(sk, row_0_pm[i], &pt);
-std::cout << pt <<std::endl;
-	if(pt){
-		std::cout << "pattern found at index " << i << std::endl;
-	}
+	    cc.Decrypt(sk, row_0_pm[i], &pt);
+        std::cout << pt <<std::endl;
+        if(pt){
+            std::cout << "pattern found at index " << i << std::endl;
+        }
    }
 
 
@@ -323,13 +323,7 @@ TIC(t);
     // Re-encrypt using the temporary public key
     ////////////////////////////////////////////////////////////
 
-    lbcrypto::PrivateKey<lbcrypto::DCRTPoly> bob_private_key;
-
-    if (!Serial::DeserializeFromFile(DATAFOLDER + "/key-private.txt", bob_private_key, SerType::BINARY)) {
-        std::cerr << "Could not deserialize the public key" << std::endl;
-        return 1;
-    }
-
+    //homolog result
     vecInt vShorts;
     for (char* item: get_the_homolog_result){
         for (int i = 0; i < (int) thehomo.size(); i++){
@@ -345,9 +339,68 @@ TIC(t);
     //re encrypt with re-enc key
     auto temp2 = ccPoly->ReEncrypt(temp, re_encryption_key);
 
-    PT dec;
-    ccPoly->Decrypt(bob_private_key, temp2, &dec);
-          cout << dec->GetPackedValue();
+    // serialize the result so Bob can decrypt it with his private key
+    std::string reenc_homolog = "../reencrypted_homolog";
+
+    if (!Serial::SerializeToFile(reenc_homolog + "/ciphertxt.txt", temp2, SerType::BINARY)) {
+        std::cerr << "Error writing serialization of reencrypted homolog" << std::endl;
+        //return 1; 
+    }
+
+    //precent match result
+    vecInt vShorts2;
+    vShorts2.push_back(percent_match_valuePM);
+    
+
+    PT packedplaintext2 = ccPoly->MakePackedPlaintext(vShorts2);
+
+    //temporary encryption with public key
+    // auto temp = ccPoly->Encrypt(alicePair.publicKey, packedplaintext2);
+
+    //re encrypt with re-enc key
+    auto temp_percentmatch_result = ccPoly->ReEncrypt(ccPoly->Encrypt(alicePair.publicKey, packedplaintext2), re_encryption_key);
+
+    // serialize the result so Bob can decrypt it with his private key
+    std::string reenc_percentmatch_result = "../reenc_percentmatch_result";
+
+    if (!Serial::SerializeToFile(reenc_percentmatch_result + "/ciphertxt.txt", temp_percentmatch_result, SerType::BINARY)) {
+        std::cerr << "Error writing serialization of reencrypted pattern result" << std::endl;
+        //return 1; 
+    }
+
+    // pattern found result
+
+    vecInt vShorts3;
+
+    for (int i = 0; i < (int) row_0_pm.size(); i++){
+      	LWEPlaintext pt;
+	    cc.Decrypt(sk, row_0_pm[i], &pt);
+        std::cout << pt <<std::endl;
+        
+        if(pt){
+            // this allows us to identify if the pattern is at index 0 when we pack plantext for reenc
+            vShorts3.push_back(i + 1);
+            // std::cout << "pattern found at index " << i << std::endl;
+        }
+    }
+
+    PT packedplaintext3 = ccPoly->MakePackedPlaintext(vShorts3);
+    auto temp_patternfound_result = ccPoly->ReEncrypt(ccPoly->Encrypt(alicePair.publicKey, packedplaintext3), re_encryption_key);
+    
+    std::string reenc_pattern_index_result = "../reenc_pattern_index_result";
+        if (!Serial::SerializeToFile(reenc_pattern_index_result + "/ciphertxt.txt", temp_patternfound_result, SerType::BINARY)) {
+        std::cerr << "Error writing serialization of reencrypted pattern index result" << std::endl;
+        //return 1; 
+    }
+
+
+
+    
+
+    
+
+
+
     
     
     

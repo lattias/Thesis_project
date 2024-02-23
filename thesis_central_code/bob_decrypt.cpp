@@ -47,7 +47,7 @@ int main(){
     parameters.SetPlaintextModulus(plaintextModulus);
     parameters.SetScalingModSize(60);
     CryptoContext<DCRTPoly> ccPoly = GenCryptoContext(parameters);
-    
+
     ccPoly->Enable(PKE);
     ccPoly->Enable(KEYSWITCH);
     ccPoly->Enable(LEVELEDSHE);
@@ -71,7 +71,7 @@ int main(){
     //std::string reenc_pattern = "../reencrypted_pattern";
 
     Ciphertext<DCRTPoly> homolog_for_bob;
-    if (!Serial::DeserializeFromFile(reenc_homolog + "ciphertxt.txt", homolog_for_bob, SerType::BINARY)) {
+    if (!Serial::DeserializeFromFile(reenc_homolog + "/ciphertxt.txt", homolog_for_bob, SerType::BINARY)) {
         std::cerr << "Error deserialization of reencrypted pattern" << std::endl;
         //return 1; 
     }
@@ -93,7 +93,7 @@ int main(){
     //std::string reenc_pattern = "../reencrypted_percentmatch_result";
 
     Ciphertext<DCRTPoly> percentmatch_result_for_bob;
-    if (!Serial::DeserializeFromFile(reenc_percentmatch_result + "ciphertxt.txt", percentmatch_result_for_bob, SerType::BINARY)) {
+    if (!Serial::DeserializeFromFile(reenc_percentmatch_result + "/ciphertxt.txt", percentmatch_result_for_bob, SerType::BINARY)) {
         std::cerr << "Error deserialization of reencrypted percent match result" << std::endl;
         //return 1; 
     }
@@ -113,7 +113,7 @@ int main(){
 
     // pattern index result
     Ciphertext<DCRTPoly> pattern_index_result_for_bob;
-    if (!Serial::DeserializeFromFile(reenc_pattern_index_result + "ciphertxt.txt", pattern_index_result_for_bob, SerType::BINARY)) {
+    if (!Serial::DeserializeFromFile(reenc_pattern_index_result + "/ciphertxt.txt", pattern_index_result_for_bob, SerType::BINARY)) {
         std::cerr << "Error deserialization of pattern index result" << std::endl;
         //return 1; 
     }
