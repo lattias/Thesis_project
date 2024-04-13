@@ -1,5 +1,6 @@
 # FlexFHE
  MS thesis code: FlexFHE
+ 
  a parallel implementation of bitwise LWE FHE to encrypt large data
 
 ## Installation steps for running the re-creating timeing and performance metrics:
